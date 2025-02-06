@@ -1,0 +1,22 @@
+name: MeliProcess
+options:
+  minimumXcodeGenVersion: 2.0
+  groupSortPosition: top
+  generateEmptyDirectories: true
+  bundleIdPrefix: com.gbrlcm.processoseletivo
+  deploymentTarget:
+    iOS: "15.0"
+settings:
+    DEVELOPMENT_TEAM: T45H45J
+localPackages:
+  - ./Modules/Home
+  - ./Modules/DesignSystem
+targets:
+    App:
+        type: application
+        platform: iOS
+        sources:
+            - path: App
+        dependencies:
+            - package: Home
+            
