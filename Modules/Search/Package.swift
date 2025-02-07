@@ -4,22 +4,28 @@
 import PackageDescription
 
 let package = Package(
-    name: "Home",
+    name: "Search",
     platforms: [.iOS(.v15)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "Home",
-            targets: ["Home"]),
+            name: "Search",
+            targets: ["Search"]),
+    ],
+    dependencies: [
+        .package(path: "../DesignSystem"),
+        .package(path: "../Model"),
+        .package(path: "../Network"),
+        .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1"))
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Home"),
+            name: "Search", dependencies: ["DesignSystem", "Model", "SnapKit", "Network"]),
         .testTarget(
-            name: "HomeTests",
-            dependencies: ["Home"]
+            name: "SearchTests",
+            dependencies: ["Search"]
         ),
     ]
 )

@@ -7,10 +7,20 @@ options:
   deploymentTarget:
     iOS: "15.0"
 settings:
-    DEVELOPMENT_TEAM: T45H45J
+    DEVELOPMENT_TEAM: WK7599VNDW
+packages:
+  SnapKit:
+    url: https://github.com/SnapKit/SnapKit.git
+    from: 5.0.1
 localPackages:
   - ./Modules/Home
   - ./Modules/DesignSystem
+  - ./Modules/Model
+  - ./Modules/Search
+  - ./Modules/Detail
+  - ./Modules/Network
+  - ./Modules/Router
+  - ./Modules/RouterInterface
 targets:
     App:
         type: application
@@ -19,4 +29,16 @@ targets:
             - path: App
         dependencies:
             - package: Home
-            
+            - package: Router
+        scheme:
+            gatherCoverageData: true
+            testTargets:
+                - package: Home/HomeTests
+                - package: Model/ModelTests
+                - package: DesignSystem/DesignSystemTests
+                - package: Search/SearchTests
+                - package: Detail/DetailTests
+                - package: Network/NetworkTests
+                - package: Router/RouterTests
+                - package: RouterInterface/RouterInterfaceTests
+        

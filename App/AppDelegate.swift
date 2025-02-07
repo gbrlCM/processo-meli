@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import Home
+import Router
+import RouterInterface
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let window = UIWindow(frame: UIScreen.main.bounds)
         //        window.rootViewController = UINavigationController(rootViewController: NoteViewController(palette: .classic, repository: NotesRepository()))
-        window.rootViewController = UINavigationController(rootViewController: HomeViewController())
+        let router = Router()
+        RouterProvider.shared.router = router
+        let viewController = router.view(for: SearchRoute(query: "")) ?? UIViewController()
+        window.rootViewController = UINavigationController(rootViewController: viewController)
         window.makeKeyAndVisible()
         self.window = window
         return true

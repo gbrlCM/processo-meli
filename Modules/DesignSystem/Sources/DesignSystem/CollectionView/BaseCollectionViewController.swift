@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hashable & Sendable>: UIViewController {
+open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hashable & Sendable>: UIViewController, Layoutable {
     public private(set) lazy var dataSource: UICollectionViewDiffableDataSource<Section, Item> = {
         .init(collectionView: collectionView) {[weak self] collectionView, indexPath, item in
             guard let self else { return UICollectionViewCell() }
@@ -39,7 +39,6 @@ open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hash
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             return self?.buildSupplementaryView(for: collectionView, withKind: kind, at: indexPath)
         }
-        
     }
     
     open func buildCell(for collectionView: UICollectionView, at indexPath: IndexPath, with item: Item) -> UICollectionViewCell {
@@ -53,12 +52,12 @@ open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hash
 
 extension BaseCollectionViewController: ListUpdateDelegate {
     public func updateWithNewData(data: [Section: [Item]], animated: Bool) {
-        var emptySnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         data.keys.forEach {
-            emptySnapshot.appendSections([$0])
-            emptySnapshot.appendItems(data[$0] ?? [], toSection: $0)
+            snapshot.appendSections([$0])
+            snapshot.appendItems(data[$0] ?? [], toSection: $0)
         }
-        dataSource.apply(emptySnapshot, animatingDifferences: animated)
+        dataSource.apply(snapshot, animatingDifferences: animated)
     }
 }
 
