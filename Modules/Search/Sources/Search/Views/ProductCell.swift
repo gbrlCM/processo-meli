@@ -46,14 +46,16 @@ final class ProductView: ConfigurableView<ProductCellViewModel> {
         image.contentMode = .scaleAspectFit
         stack.setCustomSpacing(8, after: image)
         productName.font = .preferredFont(forTextStyle: .subheadline)
+        productName.textColor = UIColor(named: .secondaryText)
         productPrice.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
+        productPrice.textColor = UIColor(named: .text)
         productName.numberOfLines = 2
         productPrice.numberOfLines = 1
-        backgroundColor = .secondarySystemGroupedBackground
+        backgroundColor = UIColor(named: Colors.cellBackground)
         textStack.axis = .vertical
         textStack.spacing = 8
         layer.cornerRadius = 8
-        let configuration = UIImage.SymbolConfiguration(paletteColors: [.secondaryLabel])
+        let configuration = UIImage.SymbolConfiguration(paletteColors: [UIColor(named: .secondaryAccent)])
         stack.spacing = 4
         
         disclosureIndicator.image = UIImage(systemName: "chevron.right", withConfiguration: configuration)

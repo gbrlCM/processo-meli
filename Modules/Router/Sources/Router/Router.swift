@@ -1,10 +1,9 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
 import Detail
 import Model
 import Home
 import Search
 import RouterInterface
+import Network
 import UIKit
 
 public final class Router: RouterInterface {
@@ -17,7 +16,7 @@ public final class Router: RouterInterface {
         case SearchRoute.path:
             return buildSearchViewController(with: route)
         case HomeRoute.path:
-            return UIViewController()
+            return HomeFactory().build()
         default:
             return nil
         }
@@ -26,12 +25,13 @@ public final class Router: RouterInterface {
     private func buildSearchViewController(with route: Route) -> UIViewController? {
         guard
             let data = route.data,
-            let query = SearchRoute.decode(data)
+            let query = SearchRoute.decode(data),
+            let router = RouterProvider.shared.router
         else {
             return nil
         }
         
-        return SearchFactory().build()
+        return SearchFactory(router: router, network: Network()).build(query: query)
     }
 }
 

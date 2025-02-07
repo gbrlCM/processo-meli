@@ -14,7 +14,11 @@ public final class HomeFactory: HomeFactoryProtocol {
     public init() {}
     
     public func build() -> UIViewController {
+        let coordinator = HomeCoordinator()
+        let interactor = HomeInteractor(coordinator: coordinator)
+        let viewController = HomeViewController(interactor: interactor)
         
-        return UIViewController()
+        coordinator.navigator = viewController
+        return viewController
     }
 }

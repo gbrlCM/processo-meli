@@ -11,17 +11,20 @@ import Model
 protocol SearchInteractorProtocol {
     func search(query: String) async
     func loadMoreElements(query: String) async
+    func selectedProduct(at index: Int)
 }
 
 final class SearchInteractor: SearchInteractorProtocol {
     private let presenter: SearchPresenterProtocol
     private let repository: SearchRepositoryProtocol
+    private let coordinator: SearchCoordinatorProtocol
     
-    private var pageState: State
+    private(set) var pageState: State
     
-    init (presenter: SearchPresenterProtocol, repository: SearchRepositoryProtocol) {
+    init(presenter: SearchPresenterProtocol, repository: SearchRepositoryProtocol, coordinator: SearchCoordinatorProtocol) {
         self.presenter = presenter
         self.repository = repository
+        self.coordinator = coordinator
         self.pageState = State()
     }
     
@@ -29,8 +32,7 @@ final class SearchInteractor: SearchInteractorProtocol {
         await MainActor.run {
             presenter.loading(isLoading: true)
         }
-        self.pageState.paging = .init(total: 0, offset: 0, limit: 0)
-        self.pageState.products = []
+        self.pageState = State()
         await executeSearch(query: query, animated: true)
     }
     
@@ -55,8 +57,18 @@ final class SearchInteractor: SearchInteractorProtocol {
                 print(pageState.paging, pageState.shouldLoadMore)
             }
         } catch {
-            
+            await MainActor.run {
+                self.presenter.loading(isLoading: false)
+                self.pageState.shouldLoadMore = false
+                self.coordinator.presentSearchError()
+            }
         }
+    }
+    
+    func selectedProduct(at index: Int) {
+        guard index < pageState.products.count else { return }
+        let item = pageState.products[index]
+        coordinator.goToDetail(item)
     }
 }
 

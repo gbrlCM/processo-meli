@@ -6,19 +6,33 @@
 //
 import UIKit
 import Network
+import RouterInterface
 
+@MainActor
 public protocol SearchFactoryProtocol {
-    @MainActor func build() -> UIViewController
+    func build(query: String) -> UIViewController
 }
 
 public final class SearchFactory: SearchFactoryProtocol {
-    public init() {}
+    let router: RouterInterface
+    let network: NetworkProtocol
     
-    public func build() -> UIViewController {
+    public init(router: RouterInterface, network: NetworkProtocol) {
+        self.router = router
+        self.network = network
+    }
+    
+    public func build(query: String) -> UIViewController {
         let presenter = SearchPresenter()
-        let interactor = SearchInteractor(presenter: presenter, repository: SearchRepository(network: Network()))
-        let viewController = SearchViewController(interactor: interactor)
+        let coordinator = SearchCoordinator(router: router)
+        let interactor = SearchInteractor(
+            presenter: presenter,
+            repository: SearchRepository(network: network),
+            coordinator: coordinator
+        )
+        let viewController = SearchViewController(interactor: interactor, initialQuery: query)
         presenter.viewController = viewController
+        coordinator.navigator = viewController
         return viewController
     }
 }

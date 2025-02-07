@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hashable & Sendable>: UIViewController, Layoutable {
+open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hashable & Sendable>: LayoutableViewController {
     public private(set) lazy var dataSource: UICollectionViewDiffableDataSource<Section, Item> = {
         .init(collectionView: collectionView) {[weak self] collectionView, indexPath, item in
             guard let self else { return UICollectionViewCell() }
@@ -39,6 +39,17 @@ open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hash
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             return self?.buildSupplementaryView(for: collectionView, withKind: kind, at: indexPath)
         }
+    }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithDefaultBackground()
+        appearance.backgroundColor = UIColor(named: Colors.accent)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor(named: Colors.text)]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        UIBarButtonItem.appearance().tintColor = UIColor(named: Colors.text)
     }
     
     open func buildCell(for collectionView: UICollectionView, at indexPath: IndexPath, with item: Item) -> UICollectionViewCell {

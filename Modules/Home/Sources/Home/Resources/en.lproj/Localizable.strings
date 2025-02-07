@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Home
+
+  Created by Gabriel Ferreira de Carvalho on 07/02/25.
+  
+*/
+"Name" = "Meli Busca";
+"Description" = "Digite abaixo o que deseja buscar!";
+"Button" = "**Buscar**";
+"Placeholder" = "Digite aqui o que deseja buscar";

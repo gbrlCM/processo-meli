@@ -15,12 +15,12 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
     private let searchSubject: CurrentValueSubject<String, Never>
     private let scrollSubject: PassthroughSubject<Bool, Never>
     
-    init(interactor: SearchInteractorProtocol) {
+    init(interactor: SearchInteractorProtocol, initialQuery: String) {
         self.interactor = interactor
         self.searchController = UISearchController()
         self.progressIndicator = UIActivityIndicatorView(style: .large)
         self.cancellables = []
-        self.searchSubject = .init("")
+        self.searchSubject = .init(initialQuery)
         self.scrollSubject = .init()
         super.init(nibName: nil, bundle: nil)
     }
@@ -43,7 +43,7 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
         group.edgeSpacing = .init(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(8))
        
          let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+        section.contentInsets = .init(top: 16, leading: 16, bottom: 0, trailing: 16)
 
          let layout = UICollectionViewCompositionalLayout(section: section)
         
@@ -58,27 +58,25 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
         
         collectionView.register(ProductCell.self)
         setupBindings()
-        setupHierarchy()
-        setupLayout()
-        setupStyle()
+        
+        searchController.searchBar.text = searchSubject.value
     }
     
-    func setupHierarchy() {
+    override func setupHierarchy() {
         view.addSubview(progressIndicator)
     }
     
-    func setupLayout() {
+    override func setupLayout() {
         progressIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
     }
     
-    func setupStyle() {
-        view.backgroundColor = .systemBackground
-        
+    override func setupStyle() {
         title = "Search"
-        view.backgroundColor = .systemGroupedBackground
-        collectionView.backgroundColor = .systemGroupedBackground
+        view.backgroundColor = UIColor(named: Colors.background)
+        collectionView.backgroundColor = UIColor(named: Colors.background)
+        searchController.searchBar.tintColor = UIColor(named: Colors.secondaryText)
         progressIndicator.isHidden = true
     }
     
@@ -137,6 +135,7 @@ extension SearchViewController: SearchViewControllerProtocol {
 
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
+        print("Called")
         searchSubject.send(searchController.searchBar.text ?? "")
     }
 }
@@ -145,12 +144,8 @@ extension SearchViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollSubject.send(collectionView.didScrollToTheEnd)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        interactor.selectedProduct(at: indexPath.row)
+    }
 }
-
-#if DEBUG
-import SwiftUI
-#Preview {
-    AnyViewControllerRepresentable(viewController: UINavigationController(rootViewController:  SearchFactory().build()))
-}
-#endif
-
