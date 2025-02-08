@@ -7,10 +7,13 @@ let package = Package(
     name: "RouterInterface",
     platforms: [.iOS(.v15)],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "RouterInterface",
             targets: ["RouterInterface"]),
+        .library(
+            name: "RouterInterfaceTestHelpers",
+            targets: ["RouterInterfaceTestHelpers"]
+        )
     ],
     dependencies: [
         .package(path: "../Model")
@@ -19,7 +22,13 @@ let package = Package(
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "RouterInterface", dependencies: ["Model"]),
+            name: "RouterInterface",
+            dependencies: ["Model"]
+        ),
+        .target(
+            name: "RouterInterfaceTestHelpers",
+            dependencies: ["RouterInterface"]
+        ),
         .testTarget(
             name: "RouterInterfaceTests",
             dependencies: ["RouterInterface"]

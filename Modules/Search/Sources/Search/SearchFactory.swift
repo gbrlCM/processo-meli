@@ -14,10 +14,10 @@ public protocol SearchFactoryProtocol {
 }
 
 public final class SearchFactory: SearchFactoryProtocol {
-    let router: RouterInterface
+    let router: RouterProtocol
     let network: NetworkProtocol
     
-    public init(router: RouterInterface, network: NetworkProtocol) {
+    public init(router: RouterProtocol, network: NetworkProtocol) {
         self.router = router
         self.network = network
     }

@@ -6,7 +6,7 @@ import RouterInterface
 import Network
 import UIKit
 
-public final class Router: RouterInterface {
+public final class Router: RouterProtocol {
     public init() {}
     
     public func view(for route: Route) -> UIViewController? {

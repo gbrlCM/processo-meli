@@ -17,9 +17,9 @@ protocol SearchCoordinatorProtocol {
 final class SearchCoordinator: SearchCoordinatorProtocol {
     weak var navigator: Navigator?
     
-    private let router: RouterInterface
+    private let router: RouterProtocol
     
-    init(router: RouterInterface) {
+    init(router: RouterProtocol) {
         self.router = router
     }
     

@@ -16,17 +16,22 @@ protocol SearchPresenterProtocol {
 final class SearchPresenter: SearchPresenterProtocol {
     weak var viewController: (any SearchViewControllerProtocol)?
     
+    private lazy var formatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.minimumFractionDigits = 2
+        return numberFormatter
+    }()
+    
     func updateData(_ data: [ProductDetail], animated: Bool) {
-        let viewModels = data.map { product in
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .currency
-            numberFormatter.currencyCode = product.currencyId
-            numberFormatter.minimumFractionDigits = 2
-            let price = numberFormatter.string(for: product.price) ?? ""
-            return ProductCellViewModel(name: product.title, price: price, thumbnail: product.thumbnail, id: product.id)
-        }
-        
+        let viewModels = data.map(adapt(detail:))
         viewController?.updateWithNewData(data: [0: viewModels], animated: animated)
+    }
+    
+    private func adapt(detail: ProductDetail) -> ProductCellViewModel {
+        formatter.currencyCode = detail.currencyId
+        let price = formatter.string(for: detail.price) ?? ""
+        return ProductCellViewModel(name: detail.title, price: price, thumbnail: detail.thumbnail, id: detail.id)
     }
     
     func loading(isLoading: Bool) {

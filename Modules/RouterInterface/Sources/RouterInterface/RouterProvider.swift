@@ -11,5 +11,5 @@ public final class RouterProvider {
     
     private init() {}
     
-    public var router: RouterInterface? = nil
+    public var router: RouterProtocol? = nil
 }
