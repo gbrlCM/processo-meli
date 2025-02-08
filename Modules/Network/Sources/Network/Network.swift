@@ -29,7 +29,7 @@ public final actor Network: NetworkProtocol {
     
     public func fetch<T>(from url: URL) async throws -> (T, URLResponse) where T : Decodable {
         let (data, response) = try await session.data(from: url)
-        let decodedData = try self.decoder.decode(T.self, from: data)
+        let decodedData = try! self.decoder.decode(T.self, from: data)
         return (decodedData, response)
     }
     

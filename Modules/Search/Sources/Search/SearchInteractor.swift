@@ -21,11 +21,16 @@ final class SearchInteractor: SearchInteractorProtocol {
     
     private(set) var pageState: State
     
-    init(presenter: SearchPresenterProtocol, repository: SearchRepositoryProtocol, coordinator: SearchCoordinatorProtocol) {
+    init(
+        presenter: SearchPresenterProtocol,
+        repository: SearchRepositoryProtocol,
+        coordinator: SearchCoordinatorProtocol,
+        state: State = .init()
+    ) {
         self.presenter = presenter
         self.repository = repository
         self.coordinator = coordinator
-        self.pageState = State()
+        self.pageState = state
     }
     
     func search(query: String) async {
@@ -54,7 +59,6 @@ final class SearchInteractor: SearchInteractorProtocol {
                 self.pageState.products.append(contentsOf: products.results)
                 self.presenter.updateData(pageState.products, animated: animated)
                 self.pageState.paging = products.paging
-                print(pageState.paging, pageState.shouldLoadMore)
             }
         } catch {
             await MainActor.run {

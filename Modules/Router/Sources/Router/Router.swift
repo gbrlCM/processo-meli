@@ -12,7 +12,7 @@ public final class Router: RouterInterface {
     public func view(for route: Route) -> UIViewController? {
         switch route.path {
         case DetailRoute.path:
-            return UIViewController()
+            return buildDetailViewController(with: route)
         case SearchRoute.path:
             return buildSearchViewController(with: route)
         case HomeRoute.path:
@@ -32,6 +32,17 @@ public final class Router: RouterInterface {
         }
         
         return SearchFactory(router: router, network: Network()).build(query: query)
+    }
+    
+    private func buildDetailViewController(with route: Route) -> UIViewController? {
+        guard
+            let data = route.data,
+            let detail = DetailRoute.decode(data)
+        else {
+            return nil
+        }
+        
+        return DetailFactory().build(detail)
     }
 }
 
