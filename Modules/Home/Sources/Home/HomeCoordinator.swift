@@ -10,7 +10,7 @@ import RouterInterface
 @MainActor
 protocol HomeCoordinatorProtocol {
     func goToSearch(query: String)
-    func presentErrorMessage(error: String)
+    func presentErrorMessage()
 }
 
 final class HomeCoordinator: HomeCoordinatorProtocol {
@@ -21,9 +21,15 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
         navigator?.push(viewController: searchView, animated: true)
     }
     
-    func presentErrorMessage(error: String) {
-        let alertController = UIAlertController(title: nil, message: error, preferredStyle: .alert)
-        alertController.addAction(.init(title: "Okay", style: .default))
+    func presentErrorMessage() {
+        let alertController = UIAlertController(
+            title: nil,
+            message: L10n.Error.message,
+            preferredStyle: .alert
+        )
+        alertController.addAction(
+            .init(title: L10n.Error.button, style: .default)
+        )
         navigator?.present(viewController: alertController, animated: true)
     }
 }

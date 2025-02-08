@@ -73,11 +73,13 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
     }
     
     override func setupStyle() {
-        title = "Search"
+        title = L10n.title
         view.backgroundColor = UIColor(named: Colors.background)
         collectionView.backgroundColor = UIColor(named: Colors.background)
         searchController.searchBar.tintColor = UIColor(named: Colors.secondaryText)
+        progressIndicator.color = UIColor(named: Colors.secondaryAccent)
         progressIndicator.isHidden = true
+        progressIndicator.layer.zPosition = 1000
     }
     
     func setupBindings() {
@@ -86,7 +88,6 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
             .removeDuplicates()
             .debounce(for: .milliseconds(600), scheduler: RunLoop.main)
             .sink { [weak self] query in
-                print("Chamou search")
                 Task {
                     await self?.interactor.search(query: query)
                 }
@@ -135,7 +136,6 @@ extension SearchViewController: SearchViewControllerProtocol {
 
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        print("Called")
         searchSubject.send(searchController.searchBar.text ?? "")
     }
 }

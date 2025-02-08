@@ -29,8 +29,8 @@ final class SearchCoordinator: SearchCoordinatorProtocol {
     }
     
     func presentSearchError() {
-        let alertController = UIAlertController(title: nil, message: "", preferredStyle: .alert)
-        alertController.addAction(.init(title: "Okay", style: .default))
+        let alertController = UIAlertController(title: nil, message: L10n.Error.message, preferredStyle: .alert)
+        alertController.addAction(.init(title: L10n.Error.button, style: .default))
         navigator?.present(viewController: alertController, animated: true)
     }
 }

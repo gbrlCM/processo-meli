@@ -9,3 +9,5 @@
 "Description" = "Digite abaixo o que deseja buscar!";
 "Button" = "**Buscar**";
 "Placeholder" = "Digite aqui o que deseja buscar";
+"Error.Message" = "É necessário digitar algo para buscar";
+"Error.Button" = "Okay";

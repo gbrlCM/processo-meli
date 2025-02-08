@@ -36,7 +36,6 @@ final actor SearchRepository: SearchRepositoryProtocol {
             URLQueryItem(name: "q", value: query),
             URLQueryItem(name: "offset", value: String(page))
         ]
-        print(components.url)
         return components.url
     }
 }

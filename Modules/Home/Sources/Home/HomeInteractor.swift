@@ -30,7 +30,7 @@ final class HomeInteractor: HomeInteractorProtocol {
         if !pageState.query.isEmpty {
             coordinator.goToSearch(query: pageState.query)
         } else {
-            coordinator.presentErrorMessage(error: "É necessário digitar algo para buscar")
+            coordinator.presentErrorMessage()
         }
     }
 }

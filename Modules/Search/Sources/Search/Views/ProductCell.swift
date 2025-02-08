@@ -84,12 +84,3 @@ struct ProductCellViewModel: Equatable, Hashable {
     let thumbnail: URL
     let id: String
 }
-
-#if DEBUG
-import SwiftUI
-
-#Preview {
-    AnyViewRepresentable(view: ProductView())
-        .frame(width: 350, height: 120)
-}
-#endif

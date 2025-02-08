@@ -10,22 +10,16 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
-  /// **Buscar**
-  internal static let button = L10n.tr("Localizable", "Button", fallback: "**Buscar**")
-  /// Digite abaixo o que deseja buscar!
-  internal static let description = L10n.tr("Localizable", "Description", fallback: "Digite abaixo o que deseja buscar!")
-  /// Localizable.strings
-  ///   Home
-  /// 
-  ///   Created by Gabriel Ferreira de Carvalho on 07/02/25.
-  internal static let name = L10n.tr("Localizable", "Name", fallback: "Meli Busca")
-  /// Digite aqui o que deseja buscar
-  internal static let placeholder = L10n.tr("Localizable", "Placeholder", fallback: "Digite aqui o que deseja buscar")
+  /// Busca
+  internal static let title = L10n.tr("Localizable", "Title", fallback: "Busca")
   internal enum Error {
     /// Okay
     internal static let button = L10n.tr("Localizable", "Error.Button", fallback: "Okay")
-    /// É necessário digitar algo para buscar
-    internal static let message = L10n.tr("Localizable", "Error.Message", fallback: "É necessário digitar algo para buscar")
+    /// Localizable.strings
+    ///   Search
+    /// 
+    ///   Created by Gabriel Ferreira de Carvalho on 08/02/25.
+    internal static let message = L10n.tr("Localizable", "Error.Message", fallback: "Um Erro ocorreu ao tentar buscar, digite novamente o que deseja buscar para tentar novamente")
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length

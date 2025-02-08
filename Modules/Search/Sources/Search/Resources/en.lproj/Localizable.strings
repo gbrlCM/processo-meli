@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Search
+
+  Created by Gabriel Ferreira de Carvalho on 08/02/25.
+  
+*/
+
+"Error.Message" = "Um Erro ocorreu ao tentar buscar, digite novamente o que deseja buscar para tentar novamente";
+"Error.Button" = "Okay";
+"Title" = "Busca";
