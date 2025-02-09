@@ -20,12 +20,13 @@ final class ProductImage: ConfigurableView<UIImage?> {
     
     override func setupLayout() {
         imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalToSuperview().inset(Spacing.sm)
         }
     }
     
     override func setupStyle() {
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
+        backgroundColor = .white
     }
     
     override func configure(with viewModel: UIImage?) {
