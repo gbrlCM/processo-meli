@@ -16,10 +16,14 @@ protocol HomeInteractorProtocol {
 final class HomeInteractor: HomeInteractorProtocol {
     private let coordinator: HomeCoordinatorProtocol
     
-    private(set) var pageState: State = State(query: "")
+    private(set) var pageState: State
     
-    init(coordinator: HomeCoordinatorProtocol) {
+    init(
+        coordinator: HomeCoordinatorProtocol,
+        state: State = State(query: "")
+    ) {
         self.coordinator = coordinator
+        self.pageState = state
     }
     
     func textValueDidChange(_ value: String) {

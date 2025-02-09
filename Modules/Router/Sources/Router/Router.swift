@@ -16,7 +16,7 @@ public final class Router: RouterProtocol {
         case SearchRoute.path:
             return buildSearchViewController(with: route)
         case HomeRoute.path:
-            return HomeFactory().build()
+            return buildHomeViewController()
         default:
             return nil
         }
@@ -43,6 +43,11 @@ public final class Router: RouterProtocol {
         }
         
         return DetailFactory().build(detail)
+    }
+    
+    private func buildHomeViewController() -> UIViewController? {
+        guard let router = RouterProvider.shared.router else { return nil }
+        return HomeFactory(router: router).build()
     }
 }
 

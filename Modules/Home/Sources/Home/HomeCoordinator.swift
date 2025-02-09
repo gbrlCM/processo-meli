@@ -14,10 +14,16 @@ protocol HomeCoordinatorProtocol {
 }
 
 final class HomeCoordinator: HomeCoordinatorProtocol {
+    private let router: RouterProtocol
+    
     weak var navigator: Navigator?
     
+    init(router: RouterProtocol) {
+        self.router = router
+    }
+    
     func goToSearch(query: String) {
-        guard let searchView = RouterProvider.shared.router?.view(for: SearchRoute(query: query)) else { return }
+        guard let searchView = router.view(for: SearchRoute(query: query)) else { return }
         navigator?.push(viewController: searchView, animated: true)
     }
     
