@@ -30,16 +30,15 @@ struct SearchPresenterTests {
     
     @Test("WHEN updateData is called THEN it should transform correctly the detail into a cell viewModel")
     func testUpdateData() async throws {
-        let url = URL(string: "https://www.example.com.br")
-        try #require(url != nil, "URL should be valid")
+        let url = try #require(URL(string: "https://www.example.com.br"), "URL should be valid")
         
-        let input: [ProductDetail] = [.mock(id: "id", title: "title", thumbnail: url!, currencyId: "BRL", price: 199.99)]
+        let input: [ProductDetail] = [.mock(id: "id", title: "title", thumbnail: url, currencyId: "BRL", price: 199.99)]
         sut.updateData(input, animated: true)
         let output = viewController.methods.first
         
         #expect(
             output == .updateWithNewData(
-                data: [0: [ProductCellViewModel(name: "title", price: "R$ 199,99", thumbnail: url!, id: "id")]],
+                data: [0: [ProductCellViewModel(name: "title", price: "R$ 199,99", thumbnail: url, id: "id")]],
                 animated: true
             )
         )

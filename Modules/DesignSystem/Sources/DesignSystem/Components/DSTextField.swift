@@ -8,11 +8,16 @@ import UIKit
 import SnapKit
 
 public final class DSTextField: UITextField {
-    let padding = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+    let padding = UIEdgeInsets(
+        top: Spacing.sm,
+        left: Spacing.md,
+        bottom: Spacing.sm,
+        right: Spacing.md
+    )
     
     public init() {
         super.init(frame: .zero)
-        layer.cornerRadius = 8
+        layer.cornerRadius = CornerRadius.md
     }
     
     required init?(coder: NSCoder) {

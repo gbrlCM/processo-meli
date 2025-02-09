@@ -33,7 +33,7 @@ final class ProductView: ConfigurableView<ProductCellViewModel> {
     
     override func setupLayout() {
         stack.snp.makeConstraints { make in
-            make.edges.equalTo(self).inset(16)
+            make.edges.equalTo(self).inset(Spacing.md)
         }
         
         image.snp.makeConstraints { make in
@@ -44,7 +44,7 @@ final class ProductView: ConfigurableView<ProductCellViewModel> {
     override func setupStyle() {
         stack.axis = .horizontal
         image.contentMode = .scaleAspectFit
-        stack.setCustomSpacing(8, after: image)
+        stack.setCustomSpacing(Spacing.sm, after: image)
         productName.font = .preferredFont(forTextStyle: .subheadline)
         productName.textColor = UIColor(named: .secondaryText)
         productPrice.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
@@ -53,10 +53,10 @@ final class ProductView: ConfigurableView<ProductCellViewModel> {
         productPrice.numberOfLines = 1
         backgroundColor = UIColor(named: Colors.cellBackground)
         textStack.axis = .vertical
-        textStack.spacing = 8
-        layer.cornerRadius = 8
+        textStack.spacing = Spacing.sm
+        layer.cornerRadius = CornerRadius.md
         let configuration = UIImage.SymbolConfiguration(paletteColors: [UIColor(named: .secondaryAccent)])
-        stack.spacing = 4
+        stack.spacing = Spacing.xSm
         
         disclosureIndicator.image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
         disclosureIndicator.contentMode = .scaleAspectFit

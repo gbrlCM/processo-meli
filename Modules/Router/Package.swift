@@ -27,7 +27,7 @@ let package = Package(
             name: "Router", dependencies: ["Model", "Home", "Detail", "Search", "RouterInterface", "Network"]),
         .testTarget(
             name: "RouterTests",
-            dependencies: ["Router"]
+            dependencies: ["Router", "Model", "RouterInterface"]
         ),
     ]
 )

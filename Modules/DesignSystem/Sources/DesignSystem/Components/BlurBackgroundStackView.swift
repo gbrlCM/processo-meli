@@ -23,8 +23,8 @@ public final class BlurBackgroundStackView: UIStackView {
         addSubview(backgroundView)
         
         backgroundView.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(-16)
-            make.bottom.trailing.equalToSuperview().offset(16)
+            make.top.leading.equalToSuperview().offset(-Spacing.md)
+            make.bottom.trailing.equalToSuperview().offset(Spacing.md)
         }
         
         backgroundView.layer.zPosition = -1

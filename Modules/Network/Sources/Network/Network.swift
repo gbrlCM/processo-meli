@@ -1,5 +1,3 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
 import Foundation
 
 public protocol NetworkProtocol: Actor {
@@ -15,9 +13,9 @@ public final actor Network: NetworkProtocol {
         return decoder
     }
     
-    private let session: URLSession
+    private let session: Session
     
-    public init(session: URLSession = .shared) {
+    public init(session: Session = URLSession.shared) {
         self.session = session
     }
     

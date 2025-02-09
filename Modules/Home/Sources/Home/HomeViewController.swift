@@ -44,15 +44,15 @@ final class HomeViewController: LayoutableViewController {
     
     override func setupLayout() {
         container.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(32)
+            make.horizontalEdges.equalToSuperview().inset(Spacing.lg)
             make.centerY.equalToSuperview()
         }
     }
     
     override func setupStyle() {
-        container.backgroundView.layer.cornerRadius = 16
+        container.backgroundView.layer.cornerRadius = CornerRadius.lg
         container.backgroundView.backgroundColor = UIColor(named: Colors.background).withAlphaComponent(0.85)
-        container.spacing = 16
+        container.spacing = Spacing.md
         view.backgroundColor = UIColor(named: Colors.accent)
         
         container.axis = .vertical
@@ -67,7 +67,7 @@ final class HomeViewController: LayoutableViewController {
         descriptionLabel.textAlignment = .center
         titleLabel.font = .preferredFont(forTextStyle: .headline)
         descriptionLabel.font = .preferredFont(forTextStyle: .subheadline)
-        container.setCustomSpacing(4, after: titleLabel)
+        container.setCustomSpacing(Spacing.xSm, after: titleLabel)
         
         searchTextField.backgroundColor = UIColor(named: Colors.cellBackground)
         searchTextField.textColor = UIColor(named: Colors.text)

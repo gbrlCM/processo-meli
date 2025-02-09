@@ -13,13 +13,13 @@ public protocol ImageRepositoryProtocol: Actor {
 }
 
 public actor ImageRepository: ImageRepositoryProtocol {
-    public static let shared: ImageRepositoryProtocol = ImageRepository(network: Network())
+    public static let shared: ImageRepositoryProtocol = ImageRepository(network: Network(), cache: NSCache())
     
     private let cache: NSCache<NSURL, UIImage>
     private let network: NetworkProtocol
     
-    init(network: NetworkProtocol) {
-        self.cache = NSCache()
+    init(network: NetworkProtocol, cache: NSCache<NSURL, UIImage>) {
+        self.cache = cache
         self.network = network
         cache.countLimit = 500
     }
