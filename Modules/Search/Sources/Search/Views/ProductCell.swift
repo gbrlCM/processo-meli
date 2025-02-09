@@ -19,6 +19,7 @@ final class ProductView: ConfigurableView<ProductCellViewModel> {
     private let stack: UIStackView = UIStackView()
     private let textStack: UIStackView = UIStackView()
     private let disclosureIndicator: UIImageView = UIImageView()
+    private var currentTask: Task<Void, Never>?
     
     override func setupHierarchy() {
         addSubview(stack)
@@ -66,7 +67,7 @@ final class ProductView: ConfigurableView<ProductCellViewModel> {
         productName.text = viewModel.name
         productPrice.text = viewModel.price
         
-        Task {
+        currentTask = Task {
             let downloadedImage = await ImageRepository.shared.fetch(from: viewModel.thumbnail)
             image.image = downloadedImage
         }
@@ -74,6 +75,8 @@ final class ProductView: ConfigurableView<ProductCellViewModel> {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        currentTask?.cancel()
+        currentTask = nil
         image.image = nil
     }
 }

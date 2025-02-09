@@ -34,9 +34,7 @@ final class SearchInteractor: SearchInteractorProtocol {
     }
     
     func search(query: String) async {
-        await MainActor.run {
-            presenter.loading(isLoading: true)
-        }
+        presenter.loading(isLoading: true)
         self.pageState = State()
         await executeSearch(query: query, animated: true)
     }
@@ -53,19 +51,15 @@ final class SearchInteractor: SearchInteractorProtocol {
                 page: self.pageState.paging.page
             )
             
-            await MainActor.run {
-                self.presenter.loading(isLoading: false)
-                self.pageState.shouldLoadMore = !products.results.isEmpty
-                self.pageState.products.append(contentsOf: products.results)
-                self.presenter.updateData(pageState.products, animated: animated)
-                self.pageState.paging = products.paging
-            }
+            self.presenter.loading(isLoading: false)
+            self.pageState.shouldLoadMore = !products.results.isEmpty
+            self.pageState.products.append(contentsOf: products.results)
+            self.presenter.updateData(pageState.products, animated: animated)
+            self.pageState.paging = products.paging
         } catch {
-            await MainActor.run {
-                self.presenter.loading(isLoading: false)
-                self.pageState.shouldLoadMore = false
-                self.coordinator.presentSearchError()
-            }
+            self.presenter.loading(isLoading: false)
+            self.pageState.shouldLoadMore = false
+            self.coordinator.presentSearchError()
         }
     }
     

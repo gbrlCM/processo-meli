@@ -34,6 +34,7 @@ struct RouterTests {
             title: "",
             condition: "",
             thumbnail: url,
+            thumbnailId: "",
             currencyId: "",
             price: 0,
             originalPrice: nil,

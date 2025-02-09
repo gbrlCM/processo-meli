@@ -6,6 +6,7 @@
 //
 import Model
 import Foundation
+import DesignSystem
 
 @MainActor
 protocol SearchPresenterProtocol {
@@ -25,7 +26,7 @@ final class SearchPresenter: SearchPresenterProtocol {
     
     func updateData(_ data: [ProductDetail], animated: Bool) {
         let viewModels = data.map(adapt(detail:))
-        viewController?.updateWithNewData(data: [0: viewModels], animated: animated)
+        viewController?.updateWithNewData(data: [CollectionViewSection(sectionType: 0, items: viewModels)], animated: animated)
     }
     
     private func adapt(detail: ProductDetail) -> ProductCellViewModel {

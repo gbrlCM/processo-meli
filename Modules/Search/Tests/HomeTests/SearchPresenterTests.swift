@@ -8,6 +8,7 @@
 import Testing
 import Model
 import Foundation
+import DesignSystem
 @testable import Search
 
 @Suite("GIVEN a SearchPresenter")
@@ -38,7 +39,12 @@ struct SearchPresenterTests {
         
         #expect(
             output == .updateWithNewData(
-                data: [0: [ProductCellViewModel(name: "title", price: "R$ 199,99", thumbnail: url, id: "id")]],
+                data: [
+                    CollectionViewSection(
+                        sectionType: 0,
+                        items: [ProductCellViewModel(name: "title", price: "R$ 199,99", thumbnail: url, id: "id")]
+                    )
+                ],
                 animated: true
             )
         )

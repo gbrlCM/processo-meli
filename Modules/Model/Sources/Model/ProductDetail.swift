@@ -11,6 +11,7 @@ public struct ProductDetail: Codable, Equatable, Sendable {
     public let title: String
     public let condition: String
     public let thumbnail: URL
+    public let thumbnailId: String
     public let currencyId: String
     public let price: Double
     public let originalPrice: Double?
@@ -57,6 +58,7 @@ public struct ProductDetail: Codable, Equatable, Sendable {
         title: String,
         condition: String,
         thumbnail: URL,
+        thumbnailId: String,
         currencyId: String,
         price: Double,
         originalPrice: Double?,
@@ -70,6 +72,7 @@ public struct ProductDetail: Codable, Equatable, Sendable {
         self.title = title
         self.condition = condition
         self.thumbnail = thumbnail
+        self.thumbnailId = thumbnailId
         self.currencyId = currencyId
         self.price = price
         self.originalPrice = originalPrice

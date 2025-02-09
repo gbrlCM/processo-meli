@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hashable & Sendable>: LayoutableViewController {
     public private(set) lazy var dataSource: UICollectionViewDiffableDataSource<Section, Item> = {
@@ -17,10 +18,11 @@ open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hash
     
     public private(set) lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = UIColor(named: .background)
         return collectionView
     }()
+    
+    private let loadingView: DSLoading = DSLoading()
     
     open var layout: UICollectionViewLayout { UICollectionViewFlowLayout() }
 
@@ -28,17 +30,24 @@ open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hash
         super.viewDidLoad()
 
         view.addSubview(collectionView)
+        view.addSubview(loadingView)
         collectionView.dataSource = dataSource
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        loadingView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
+        loadingView.layer.zPosition = 1000
         
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             return self?.buildSupplementaryView(for: collectionView, withKind: kind, at: indexPath)
         }
+        
+        loadingView.loading(false)
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -52,23 +61,35 @@ open class BaseCollectionViewController<Section: Hashable & Sendable, Item: Hash
         UIBarButtonItem.appearance().tintColor = UIColor(named: Colors.text)
     }
     
-    open func buildCell(for collectionView: UICollectionView, at indexPath: IndexPath, with item: Item) -> UICollectionViewCell {
+    open func buildCell(
+        for collectionView: UICollectionView,
+        at indexPath: IndexPath,
+        with item: Item
+    ) -> UICollectionViewCell {
         fatalError("Abstract Method")
     }
     
-    open func buildSupplementaryView(for collectionView: UICollectionView, withKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView? {
+    open func buildSupplementaryView(
+        for collectionView: UICollectionView,
+        withKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView? {
         return nil
     }
 }
 
 extension BaseCollectionViewController: ListUpdateDelegate {
-    public func updateWithNewData(data: [Section: [Item]], animated: Bool) {
+    public func updateWithNewData(data: [CollectionViewSection<Section, Item>], animated: Bool) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-        data.keys.forEach {
-            snapshot.appendSections([$0])
-            snapshot.appendItems(data[$0] ?? [], toSection: $0)
+        snapshot.appendSections(data.map(\.sectionType))
+        data.forEach {
+            snapshot.appendItems($0.items, toSection: $0.sectionType)
         }
         dataSource.apply(snapshot, animatingDifferences: animated)
+    }
+    
+    public func loading(_ isLoading: Bool) {
+        loadingView.loading(isLoading)
     }
 }
 

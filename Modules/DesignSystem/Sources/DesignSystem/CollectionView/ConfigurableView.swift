@@ -24,5 +24,5 @@ open class ConfigurableView<ViewModel: Equatable & Hashable>: UIView, Layoutable
     
     open func setupStyle() {}
     
-    open func configure(with: ViewModel) {}
+    open func configure(with viewModel: ViewModel) {}
 }

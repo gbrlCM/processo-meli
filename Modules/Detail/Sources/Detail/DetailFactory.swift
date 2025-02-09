@@ -17,7 +17,7 @@ public final class DetailFactory: DetailFactoryProtocol {
     
     public func build(_ detail: ProductDetail) -> UIViewController {
         let presenter = DetailPresenter()
-        let interactor = DetailInteractor(presenter: presenter)
+        let interactor = DetailInteractor(presenter: presenter, state: .init(detail: detail))
         let viewController = DetailViewController(interactor: interactor)
         presenter.viewController = viewController
         return viewController

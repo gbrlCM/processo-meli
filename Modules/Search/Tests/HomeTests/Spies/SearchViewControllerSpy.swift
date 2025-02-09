@@ -12,7 +12,7 @@ import Model
 final class SearchViewControllerSpy: SearchViewControllerProtocol {
     enum Method: Equatable {
         case loading(Bool)
-        case updateWithNewData(data: [Int : [ProductCellViewModel]], animated: Bool)
+        case updateWithNewData(data: [CollectionViewSection<Int, ProductCellViewModel>], animated: Bool)
     }
     
     private(set) var methods: [Method] = []
@@ -21,7 +21,7 @@ final class SearchViewControllerSpy: SearchViewControllerProtocol {
         methods.append(.loading(isLoading))
     }
     
-    func updateWithNewData(data: [Int : [ProductCellViewModel]], animated: Bool) {
+    func updateWithNewData(data: [CollectionViewSection<Int, ProductCellViewModel>], animated: Bool) {
         methods.append(.updateWithNewData(data: data, animated: animated))
     }
 }

@@ -15,6 +15,7 @@ let package = Package(
     dependencies: [
         .package(path: "../DesignSystem"),
         .package(path: "../Model"),
+        .package(path: "../Network"),
         .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1"))
     ],
     targets: [
@@ -22,7 +23,7 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "Detail",
-            dependencies: ["DesignSystem", "Model", "SnapKit"]
+            dependencies: ["DesignSystem", "Model", "SnapKit", "Network"]
         ),
         .testTarget(
             name: "DetailTests",

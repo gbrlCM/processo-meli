@@ -3,14 +3,11 @@ import DesignSystem
 import Combine
 
 @MainActor
-protocol SearchViewControllerProtocol: AnyObject, ListUpdateDelegate where Section == Int, Item == ProductCellViewModel {
-    func loading(_ isLoading: Bool)
-}
+protocol SearchViewControllerProtocol: AnyObject, ListUpdateDelegate where Section == Int, Item == ProductCellViewModel {}
 
 final class SearchViewController: BaseCollectionViewController<Int, ProductCellViewModel> {
     private let interactor: SearchInteractorProtocol
     private let searchController: UISearchController
-    private let progressIndicator: UIActivityIndicatorView
     private var cancellables: Set<AnyCancellable>
     private let searchSubject: CurrentValueSubject<String, Never>
     private let scrollSubject: PassthroughSubject<Bool, Never>
@@ -18,7 +15,6 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
     init(interactor: SearchInteractorProtocol, initialQuery: String) {
         self.interactor = interactor
         self.searchController = UISearchController()
-        self.progressIndicator = UIActivityIndicatorView(style: .large)
         self.cancellables = []
         self.searchSubject = .init(initialQuery)
         self.scrollSubject = .init()
@@ -30,24 +26,34 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
     }
     
     override var layout: UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-       
-         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .estimated(120))
-         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                          subitems: [item])
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(120)
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
         group.interItemSpacing = .fixed(16)
-        group.edgeSpacing = .init(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(8))
-       
-         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 16, leading: 16, bottom: 0, trailing: 16)
-
-         let layout = UICollectionViewCompositionalLayout(section: section)
+        group.edgeSpacing = .init(
+            leading: .fixed(0),
+            top: .fixed(0),
+            trailing: .fixed(0),
+            bottom: .fixed(8)
+        )
         
-         return layout
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = .init(top: 16, leading: 16, bottom: 0, trailing: 16)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
     }
     
     override func viewDidLoad() {
@@ -62,24 +68,13 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
         searchController.searchBar.text = searchSubject.value
     }
     
-    override func setupHierarchy() {
-        view.addSubview(progressIndicator)
-    }
     
-    override func setupLayout() {
-        progressIndicator.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-    }
     
     override func setupStyle() {
         title = L10n.title
         view.backgroundColor = UIColor(named: Colors.background)
         collectionView.backgroundColor = UIColor(named: Colors.background)
         searchController.searchBar.tintColor = UIColor(named: Colors.secondaryText)
-        progressIndicator.color = UIColor(named: Colors.secondaryAccent)
-        progressIndicator.isHidden = true
-        progressIndicator.layer.zPosition = 1000
     }
     
     func setupBindings() {
@@ -122,23 +117,13 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
     }
 }
 
-extension SearchViewController: SearchViewControllerProtocol {
-    func loading(_ isLoading: Bool) {
-        if isLoading {
-            progressIndicator.startAnimating()
-        } else {
-            progressIndicator.stopAnimating()
-        }
-        
-        progressIndicator.isHidden = !isLoading
-    }
-}
-
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         searchSubject.send(searchController.searchBar.text ?? "")
     }
 }
+
+extension SearchViewController: SearchViewControllerProtocol {}
 
 extension SearchViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -17,8 +17,7 @@ public final class BlurBackgroundStackView: UIStackView {
         
         super.init(frame: .zero)
         
-        backgroundView.backgroundColor = .systemBackground.withAlphaComponent(0.3)
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.backgroundColor = UIColor(named: .cellBackground).withAlphaComponent(0.3)
         
         addSubview(backgroundView)
         
