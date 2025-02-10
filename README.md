@@ -16,6 +16,9 @@ xcodegen generate
 
 Quando o projeto estiver gerado basta abrir o arquivo e rodar o target `App`
 
+> [!WARNING]  
+> Devido o projeto ter sido desenvolvido no Xcode 16.1 e Swift 6.0 ele usa a bibliotéca de teste Testing que não está disponivel para o Xcode 15, logo não é possivel rodar os testes na branch `swift5-version`
+
 ## Dependencias
 ### Dependencias de Build
  - [XcodeGen:](https://github.com/yonaskolb/XcodeGen)
