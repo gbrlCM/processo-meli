@@ -18,10 +18,10 @@ public actor ImageRepository: ImageRepositoryProtocol {
     private let cache: NSCache<NSURL, UIImage>
     private let network: NetworkProtocol
     
-    init(network: NetworkProtocol, cache: NSCache<NSURL, UIImage>) {
-        self.cache = cache
+    init(network: NetworkProtocol, cache: @Sendable @autoclosure () -> NSCache<NSURL, UIImage>) {
+        self.cache = cache()
         self.network = network
-        cache.countLimit = 500
+        self.cache.countLimit = 500
     }
     
     public func fetch(from url: URL) async -> UIImage? {
