@@ -24,7 +24,7 @@ struct SearchPresenterTests {
     }
     
     @Test("WHEN loading is called THEN it should call viewController loading function")
-    func testLoading() async throws {
+    func testLoading() {
         sut.loading(isLoading: true)
         #expect(viewController.methods == [.loading(true)])
     }

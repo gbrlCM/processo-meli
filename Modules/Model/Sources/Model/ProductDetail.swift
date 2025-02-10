@@ -33,7 +33,7 @@ public struct ProductDetail: Codable, Equatable, Sendable {
         public let name: String
         public let valueName: String?
         
-        public init(name: String, valueName: String) {
+        public init(name: String, valueName: String?) {
             self.name = name
             self.valueName = valueName
         }

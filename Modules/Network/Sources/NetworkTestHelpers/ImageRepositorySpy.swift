@@ -10,9 +10,17 @@ import UIKit
 import Foundation
 
 public final actor ImageRepositorySpy: ImageRepositoryProtocol {
+    public enum Method: Equatable, Sendable {
+        case fetch(from: URL)
+    }
+    
     private var registeredImages: [URL: UIImage] = [:]
+    public private(set) var methods: [Method] = []
+    
+    public init() {}
     
     public func fetch(from url: URL) async -> UIImage? {
+        methods.append(.fetch(from: url))
         return registeredImages[url]
     }
     

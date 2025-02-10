@@ -27,7 +27,12 @@ let package = Package(
         ),
         .testTarget(
             name: "DetailTests",
-            dependencies: ["Detail"]
+            dependencies: [
+                "Detail",
+                "Model",
+                "DesignSystem",
+                .product(name: "NetworkTestHelpers", package: "Network")
+            ]
         ),
     ]
 )

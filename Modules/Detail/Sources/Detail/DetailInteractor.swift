@@ -8,23 +8,21 @@ import Model
 
 @MainActor
 protocol DetailInteractorProtocol {
-    func loadDetail()
+    func loadDetail() async
 }
 
 final class DetailInteractor: DetailInteractorProtocol {
-    private let presenter: DetailPresenter
+    private let presenter: DetailPresenterProtocol
     
     private(set) var pageState: State
     
-    init(presenter: DetailPresenter, state: State) {
+    init(presenter: DetailPresenterProtocol, state: State) {
         self.presenter = presenter
         self.pageState = state
     }
     
-    func loadDetail() {
-        Task {
-            await presenter.presentDetail(pageState.detail)
-        }
+    func loadDetail() async {
+        await presenter.presentDetail(pageState.detail)
     }
     
 }

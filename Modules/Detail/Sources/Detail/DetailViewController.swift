@@ -77,7 +77,9 @@ final class DetailViewController: BaseCollectionViewController<DetailSection, De
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        interactor.loadDetail()
+        Task {
+            await interactor.loadDetail()
+        }
     }
     
     override func buildCell(for collectionView: UICollectionView, at indexPath: IndexPath, with item: DetailItem) -> UICollectionViewCell {
