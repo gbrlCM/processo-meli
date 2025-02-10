@@ -28,7 +28,6 @@ targets:
         sources:
             - path: App
         dependencies:
-            - package: Home
             - package: Router
         scheme:
             gatherCoverageData: true
