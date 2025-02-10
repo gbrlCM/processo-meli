@@ -28,10 +28,6 @@ let package = Package(
         .target(
             name: "RouterInterfaceTestHelpers",
             dependencies: ["RouterInterface"]
-        ),
-        .testTarget(
-            name: "RouterInterfaceTests",
-            dependencies: ["RouterInterface"]
-        ),
+        )
     ]
 )

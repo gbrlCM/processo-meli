@@ -57,11 +57,11 @@ final class DetailPresenter: DetailPresenterProtocol {
         items.append(.generalInfo(.init(name: detail.title, price: price)))
         
         if detail.shipping.freeShipping {
-            items.append(.perk(.init(icon: UIImage(systemName: "shippingbox.fill"), value: "Frete Gratis!")))
+            items.append(.perk(.init(icon: UIImage(systemName: "shippingbox.fill"), value: L10n.Perks.freeShipping)))
         }
         
         if detail.acceptsMercadopago {
-            items.append(.perk(.init(icon: UIImage(systemName: "creditcard.fill"), value: "Pagamento com Mercado Pago")))
+            items.append(.perk(.init(icon: UIImage(systemName: "creditcard.fill"), value: L10n.Perks.mercadoPago)))
         }
         return Section(sectionType: .list, items: items)
     }

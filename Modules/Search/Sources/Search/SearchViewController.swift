@@ -12,6 +12,17 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
     private let searchSubject: CurrentValueSubject<String, Never>
     private let scrollSubject: PassthroughSubject<Bool, Never>
     
+    private lazy var toolbar: UIToolbar = {
+        let toolbar = UIToolbar()
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done = UIBarButtonItem(
+            systemItem: .done,
+            primaryAction: .init(handler: { [weak self] _ in self?.searchController.searchBar.resignFirstResponder() })
+        )
+        toolbar.setItems([flexibleSpace, done], animated: false)
+        return toolbar
+    }()
+    
     init(interactor: SearchInteractorProtocol, initialQuery: String) {
         self.interactor = interactor
         self.searchController = UISearchController()
@@ -66,6 +77,8 @@ final class SearchViewController: BaseCollectionViewController<Int, ProductCellV
         setupBindings()
         
         searchController.searchBar.text = searchSubject.value
+        searchController.searchBar.inputAccessoryView = toolbar
+        toolbar.sizeToFit()
     }
     
     

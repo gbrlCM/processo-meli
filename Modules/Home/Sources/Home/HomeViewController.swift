@@ -8,6 +8,18 @@ final class HomeViewController: LayoutableViewController {
     private let descriptionLabel: UILabel = UILabel()
     private let searchTextField: DSTextField = DSTextField()
     private let searchButton: UIButton = UIButton(type: .system)
+    private let textContainer: UIStackView = UIStackView()
+    
+    private lazy var toolbar: UIToolbar = {
+        let toolbar = UIToolbar()
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done = UIBarButtonItem(
+            systemItem: .done,
+            primaryAction: .init(handler: { [weak self] _ in self?.searchTextField.resignFirstResponder() })
+        )
+        toolbar.setItems([flexibleSpace, done], animated: false)
+        return toolbar
+    }()
     
     private let interactor: HomeInteractorProtocol
     
@@ -36,8 +48,9 @@ final class HomeViewController: LayoutableViewController {
     
     override func setupHierarchy() {
         view.addSubview(container)
-        container.addArrangedSubview(titleLabel)
-        container.addArrangedSubview(descriptionLabel)
+        view.addSubview(textContainer)
+        textContainer.addArrangedSubview(titleLabel)
+        textContainer.addArrangedSubview(descriptionLabel)
         container.addArrangedSubview(searchTextField)
         container.addArrangedSubview(searchButton)
     }
@@ -45,7 +58,12 @@ final class HomeViewController: LayoutableViewController {
     override func setupLayout() {
         container.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Spacing.lg)
-            make.centerY.equalToSuperview()
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-Spacing.lg)
+        }
+        
+        textContainer.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(Spacing.lg)
+            make.top.equalTo(view.snp.top).inset(Spacing.xLg)
         }
     }
     
@@ -56,6 +74,7 @@ final class HomeViewController: LayoutableViewController {
         view.backgroundColor = UIColor(named: Colors.accent)
         
         container.axis = .vertical
+        textContainer.axis = .vertical
         
         titleLabel.text = L10n.name
         titleLabel.textColor = UIColor(named: Colors.text)
@@ -76,6 +95,9 @@ final class HomeViewController: LayoutableViewController {
         searchButton.configuration = UIButton.Configuration.borderedProminent()
         searchButton.tintColor = UIColor(named: Colors.accent)
         searchTextField.placeholder = L10n.placeholder
+        
+        searchTextField.inputAccessoryView = toolbar
+        toolbar.sizeToFit()
         
         var title = try? AttributedString.init(markdown: L10n.button)
         

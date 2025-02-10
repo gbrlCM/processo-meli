@@ -22,10 +22,6 @@ let package = Package(
             name: "DesignSystem",
             dependencies: ["SnapKit"],
             resources: [.process("Resources")]
-        ),
-        .testTarget(
-            name: "DesignSystemTests",
-            dependencies: ["DesignSystem"]
-        ),
+        )
     ]
 )

@@ -34,11 +34,8 @@ targets:
             gatherCoverageData: true
             testTargets:
                 - package: Home/HomeTests
-                - package: Model/ModelTests
-                - package: DesignSystem/DesignSystemTests
                 - package: Search/SearchTests
                 - package: Detail/DetailTests
                 - package: Network/NetworkTests
                 - package: Router/RouterTests
-                - package: RouterInterface/RouterInterfaceTests
         

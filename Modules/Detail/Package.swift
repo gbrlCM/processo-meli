@@ -5,12 +5,14 @@ import PackageDescription
 
 let package = Package(
     name: "Detail",
+    defaultLocalization: "en",
     platforms: [.iOS(.v15)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "Detail",
-            targets: ["Detail"]),
+            targets: ["Detail"]
+        ),
     ],
     dependencies: [
         .package(path: "../DesignSystem"),
@@ -23,7 +25,8 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "Detail",
-            dependencies: ["DesignSystem", "Model", "SnapKit", "Network"]
+            dependencies: ["DesignSystem", "Model", "SnapKit", "Network"],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "DetailTests",
